@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Ganancias en Criptomonedas</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap"
+      rel="stylesheet" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        color: #fff;
+        background-color: transparent;
+      }
+      * {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        box-sizing: border-box;
+      }
+      .container {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        border-radius: 8px;
+        background-color: transparent;
+        width: 100%;
+        max-width: 470px;
+        padding: 32px 24px;
+        height: auto;
+
+        height: 535px;
+        max-height: 535px;
+      }
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 50%;
+      }
+      .input-label {
+        color: #9c9c9c;
+        font-size: 14px;
+        margin-bottom: 4px;
+        margin-left: 16px;
+      }
+      .input,
+      .select {
+        padding: 16px 20px;
+        border: none;
+        background-color: #171717;
+        color: #9c9c9c;
+        border-radius: 100px;
+        font-size: 16px;
+        width: 100%;
+      }
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
+      .select {
+        background: #000;
+        color: #fff;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+      .button {
+        background: #00f068;
+        color: #000;
+        font-weight: 700;
+        cursor: pointer;
+        border-radius: 100px;
+        width: 50%;
+        border: none;
+        padding: 18px 20px;
+      }
+      #resultado {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #4caf50;
+      }
+      .result {
+        color: #4caf50;
+      }
+      .bold {
+        color: #fff;
+        font-weight: 700;
+      }
+      .are {
+        color: #fff;
+      }
+      .calculated {
+        padding: 10px;
+      }
+      .dropdown {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+      }
+      .dropdown-select {
+        background-color: #171717;
+        color: #9c9c9c;
+        border: none;
+        padding: 16px 20px;
+        border-radius: 100px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%;
+        text-align: left;
+        position: relative;
+      }
+      .dropdown-select img {
+        width: 30px;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: #171717;
+        border-radius: 8px;
+        width: 100%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        z-index: 1;
+        top: 100%;
+        left: 0;
+        margin-top: 2px;
+        cursor: pointer;
+      }
+      .dropdown-item {
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        color: #9c9c9c;
+        font-size: 16px;
+      }
+      .dropdown-item img {
+        width: 30px;
+        margin-right: 8px;
+      }
+      .dropdown-item:hover {
+        background-color: #00f068;
+        color: #000;
+      }
+      .dropdown-item.selected {
+        background-color: #00f068;
+        color: #000;
+      }
+      .show {
+        display: block;
+      }
+      img {
+        max-width: 25px;
+        max-height: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="input-group">
+        <label class="input-label" for="moneda">Selecciona una moneda</label>
+        <div class="dropdown">
+          <div id="monedaDisplay" class="dropdown-select">
+            <img id="selectedIcon" src="./avax.svg" alt="icon" />
+            AVAX
+          </div>
+          <div id="dropdownMenu" class="dropdown-menu">
+            <div data-value="AVAX" class="dropdown-item">
+              <img src="./avax.svg" alt="AVAX" /> AVAX
+            </div>
+            <div data-value="DAI" class="dropdown-item">
+              <img src="./dai.svg" alt="DAI" /> DAI
+            </div>
+            <div data-value="ETH" class="dropdown-item">
+              <img src="./ethereum.svg" alt="ETH" /> ETH
+            </div>
+            <div data-value="POL" class="dropdown-item">
+              <img src="./polygon.svg" alt="POL" /> POL
+            </div>
+            <div data-value="USDC" class="dropdown-item">
+              <img src="./usdc.svg" alt="USDC" /> USDC
+            </div>
+            <div data-value="USDT" class="dropdown-item">
+              <img src="./usdt.svg" alt="USDT" /> USDT
+            </div>
+            <div data-value="ARS" class="dropdown-item">
+              <img src="./ars.svg" alt="ARS" /> ARS
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="input-group">
+        <label class="input-label" for="tasa">Tasa de interés anual (%)</label>
+        <input
+          type="number"
+          id="tasa"
+          class="input"
+          placeholder="Ej: 2,5%"
+          step="0.01"
+          min="0"
+          max="99.99"
+          required />
+      </div>
+      <div class="input-group">
+        <label class="input-label" for="cantidad">Cantidad a invertir</label>
+        <input
+          type="number"
+          id="cantidad"
+          class="input"
+          placeholder="Ej: 1000"
+          step="0.01"
+          required />
+      </div>
+      <button id="calcular" class="button">Calcular Ganancias</button>
+      <div id="resultado"></div>
+    </div>
+    <script>
+      const tasaPlaceholders = {
+        AVAX: "Ej: 2,5%",
+        DAI: "Ej: 4,45%",
+        ETH: "Ej: 2,05%",
+        POL: "Ej: 2,54%",
+        USDC: "Ej: 3,84%",
+        USDT: "Ej: 3,75%",
+        ARS: "Ej: 35%",
+      };
+
+      document
+        .querySelector(".dropdown-select")
+        .addEventListener("click", function () {
+          document.getElementById("dropdownMenu").classList.toggle("show");
+        });
+
+      document.querySelectorAll(".dropdown-item").forEach((item) => {
+        item.addEventListener("click", function () {
+          const value = this.getAttribute("data-value");
+          const text = this.textContent.trim();
+          const iconSrc = this.querySelector("img").src;
+          document.getElementById(
+            "monedaDisplay"
+          ).innerHTML = `<img src="${iconSrc}" alt="icon" /> ${text}`;
+          document.getElementById("tasa").placeholder = tasaPlaceholders[value];
+          document.getElementById("dropdownMenu").classList.remove("show");
+        });
+      });
+
+      document
+        .getElementById("calcular")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          const moneda = document
+            .getElementById("monedaDisplay")
+            .textContent.trim();
+          const tasa = document.getElementById("tasa").value;
+          const cantidad = document.getElementById("cantidad").value;
+
+          if (!tasa || !cantidad) {
+            document.getElementById("resultado").innerHTML = `
+            <div class="are">Primero ingresa un valor</div>
+        `;
+            return;
+          }
+
+          const tasaNum = parseFloat(tasa.replace(",", "."));
+          const cantidadNum = parseFloat(cantidad);
+
+          const gananciaSemanal = cantidadNum * (tasaNum / 100 / 52);
+          const gananciaMensual = cantidadNum * (tasaNum / 100 / 12);
+          const gananciaAnual = cantidadNum * (tasaNum / 100);
+
+          const resultado = document.getElementById("resultado");
+          resultado.innerHTML = `
+          <div class="are">Tus ganancias <span class="bold">son</span></div>
+          <div class="calculated">
+              <div class="result">Semanal: ${gananciaSemanal.toFixed(
+                2
+              )} ${moneda}</div>
+              <div class="result">Mensual: ${gananciaMensual.toFixed(
+                2
+              )} ${moneda}</div>
+              <div class="result">Anual: ${gananciaAnual.toFixed(
+                2
+              )} ${moneda}</div>
+          </div>
+      `;
+        });
+
+      // Inicializar el placeholder con el valor de la primera opción
+      document.getElementById("tasa").placeholder = tasaPlaceholders["AVAX"];
+      document.getElementById("tasa").addEventListener("input", function (e) {
+        const value = e.target.value;
+        // Permite hasta 2 dígitos enteros y hasta 2 decimales
+        const regex = /^(\d{0,2})(\.\d{0,2})?$/;
+        if (!regex.test(value)) {
+          e.target.value = value.slice(0, -1);
+        }
+      });
+    </script>
+  </body>
+</html>
